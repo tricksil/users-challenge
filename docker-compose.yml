@@ -1,0 +1,27 @@
+version: "3"
+services:
+  app:
+    image: patrick/users
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/challenge
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - spring-mongo-net
+
+  mongo:
+    image: mongo:4
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      - spring-mongo-net
+networks:
+  spring-mongo-net:
+    driver: bridge
+
